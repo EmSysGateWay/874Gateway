@@ -1,0 +1,32 @@
+<html>
+
+<head>
+    <title>
+        Test
+    </title>
+</head>
+
+<body>
+    <h1><meta charset="utf-8"> 一个非常简陋的页面</meta></h1>
+    <h3>Report: </h3>
+    <pre id="report"></pre>
+    <h3>Poll: </h3>
+    <pre id="poll"></pre>
+
+</body>
+
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+    function read(){
+        $.get('/report', (data)=>{
+            $('#report').text(JSON.stringify(data,null, "\t"));
+        })
+        $.get('/poll', (data)=>{
+            $('#poll').text(JSON.stringify(data,null, "\t"));
+        })
+        setTimeout(read, 1000);
+    }
+    setTimeout(read, 1000);
+</script>
+
+</html>
