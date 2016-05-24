@@ -35,7 +35,8 @@
 
 ## 实现细节
 ### GPIO的控制
-我们选用的是python的RPi.GPIO库，首先设置为引脚的编号为面板模式：
+我们选用的是python的RPi.GPIO库，首先设置GPIO的模式为面板模式（即通过引脚对应的编号来选择控制的引脚）：
+[引脚编号](http://zhidx.com/p/60.html)
 
 	GPIO.setmode(GPIO.BOARD)        ## Use BOARD pin numbering
 
