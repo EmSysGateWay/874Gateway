@@ -18,9 +18,11 @@ def poll(url, payload, device_id):
 
 ### Example ###
 
-# # report
-# # for zigbee
+# report
+# for zigbee
 # url = 'http://localhost'
+# url = 'http://115.159.121.185'
+
 # payload = {}
 # payload['testfield'] = 'testdata'
 
@@ -35,7 +37,7 @@ def poll(url, payload, device_id):
 #     'DeviceId':'869'
 # }
 # response = poll(url, payload, '869')
-# print response.json()
+# print response
 
 # # upload log
 # payload = {
@@ -49,7 +51,7 @@ def poll(url, payload, device_id):
 #     }  
 # }
 # response = poll(url, payload, '869')
-# print response.json()
+# print response
 
 
 

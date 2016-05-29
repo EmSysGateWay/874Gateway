@@ -40,7 +40,6 @@ class GateWay485:
 
     def readline(self):
         data = self.ser.readline()
-        print data[1:-1]
         return data[1:-1]
         
     def read(self,num):

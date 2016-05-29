@@ -34,12 +34,37 @@ class Sensor485:
     # return data from serial port
     def read(self):
         data = self.ser.readline()
-        print data[1:-1]
         return data[1:-1]
         
+    def readline(self):
+        data = self.ser.readline()
+        return data[1:-1]
+        
+class Transmit:
+    def __init__(self):
+        self.Sensor485 = Sensor485()
+    
+    def requestAuth(self):
+        dic = dict()
+        dic['RequestType']='auth'
+        dic['DiviceId']='869'
+        self.Sensor485.write(json.dumps(dic))
+    
+    def uploadLogin(self,time,id,legal,logInOrOut):
+        dic = dict()
+        dic['RequestType']='upload'
+        dic['DiviceId']='869'
+        dic['Data']={'time':time,'id':id,'legal':legal,'logInOrOut':logInOrOut}
+        self.Sensor485.write(json.dumps(dic))
+    
+    def read(self):
+        return self.Sensor485.readline()
+      
 if __name__ == '__main__':
-    a = Sensor485()
+    import json
+    a = Transmit()
     while True:
-        a.write('Hello GateWay!')
+        a.requestAuth()
         time.sleep(5)
-    print 'HEHE'
+        print a.read()
+        time.sleep(5)
