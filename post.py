@@ -18,38 +18,40 @@ def poll(url, payload, device_id):
 
 ### Example ###
 
-# # report
-# # for zigbee
+# report
+# for zigbee
 # url = 'http://localhost'
-# payload = {}
-# payload['testfield'] = 'testdata'
+url = 'http://115.159.121.185'
 
-# report(url, payload, 'FromZigBee')
+payload = {}
+payload['testfield'] = 'testdata'
+
+report(url, payload, 'FromZigBee')
 
 
-# # poll
-# # for 485
-# # get user privilege
-# payload = {
-# 	'RequestType':'auth',  
-#     'DeviceId':'869'
-# }
-# response = poll(url, payload, '869')
-# print response.json()
+# poll
+# for 485
+# get user privilege
+payload = {
+	'RequestType':'auth',  
+    'DeviceId':'869'
+}
+response = poll(url, payload, '869')
+print response
 
-# # upload log
-# payload = {
-# 	'RequestType':'upload',  
-#     'DeviceId':'869',
-#     'Data':{  
-#         'time':'2016-05-29-14-40-23',  
-#         'id':'xx',  
-#         'legal':'y',  
-#         'logInOrOut':'in'  
-#     }  
-# }
-# response = poll(url, payload, '869')
-# print response.json()
+# upload log
+payload = {
+	'RequestType':'upload',  
+    'DeviceId':'869',
+    'Data':{  
+        'time':'2016-05-29-14-40-23',  
+        'id':'xx',  
+        'legal':'y',  
+        'logInOrOut':'in'  
+    }  
+}
+response = poll(url, payload, '869')
+print response
 
 
 
