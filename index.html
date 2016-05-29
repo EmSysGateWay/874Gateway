@@ -1,5 +1,6 @@
 <html>
 
+
 <head>
     <title>
         Test
@@ -7,26 +8,67 @@
 </head>
 
 <body>
-    <h1><meta charset="utf-8"> 一个非常简陋的页面</meta></h1>
-    <h3>Report: </h3>
-    <pre id="report"></pre>
-    <h3>Poll: </h3>
-    <pre id="poll"></pre>
+    <h1><meta charset="utf-8"> 874 </meta></h1>
 
-</body>
+    <!--<h3>Poll: </h3>
+    <pre id="poll"></pre>-->
 
-<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-<script type="text/javascript">
-    function read(){
-        $.get('/report', (data)=>{
+    <div class="row">
+        <div class="col-lg-6">
+            <h3>Report: </h3>
+            <pre id="report"></pre>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" id="zigbee" onclick="
+                       var req = {
+                            target:'zigbee',
+                            message:$('input').val()
+                        }
+                        console.log(req);
+                        $.post('/poll', req);
+                    ">Zigbee</button>
+                    <button class="btn btn-default" type="button" id="485" onclick="
+                       var req = {
+                            target:'485',
+                            message:$('input').val()
+                        }
+                        console.log(req);
+                        $.post('/poll', req);
+                    ">485</button>
+                </span>
+                <input type="text" class="form-control" placeholder="...">
+            </div>
+        </div>
+    </div>
+
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+        crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
+        crossorigin="anonymous">
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+        crossorigin="anonymous"></script>-->
+    <script type="text/javascript">
+       
+    
+        function read(){
+        $.post('/report', (data)=>{
             $('#report').text(JSON.stringify(data,null, "\t"));
         })
-        $.get('/poll', (data)=>{
-            $('#poll').text(JSON.stringify(data,null, "\t"));
-        })
+        // $.get('/poll', (data)=>{
+        //     $('#poll').text(JSON.stringify(data,null, "\t"));
+        // })
+       
         setTimeout(read, 1000);
-    }
+        }
     setTimeout(read, 1000);
-</script>
+    
+    </script>
 
 </html>
