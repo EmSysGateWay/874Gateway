@@ -48,7 +48,9 @@ class Transmit:
         dic = dict()
         dic['RequestType']='auth'
         dic['DiviceId']='869'
-        self.Sensor485.write(json.dumps(dic))
+        jstr = json.dumps(dic)
+        print 'send from Sensor to GateWay:',jstr
+        self.Sensor485.write(jstr)
     
     def uploadLogin(self,time,id,legal,logInOrOut):
         dic = dict()
@@ -66,5 +68,7 @@ if __name__ == '__main__':
     while True:
         a.requestAuth()
         time.sleep(5)
-        print a.read()
+        str = a.read()
+        if len(str)>0:
+            print 'receive from GateWay:',str
         time.sleep(5)
