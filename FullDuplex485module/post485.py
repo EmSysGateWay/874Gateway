@@ -9,7 +9,9 @@ deviceId = '869'
 while True:
     str = a.readline()
     if len(str) > 0 :
+        print 'request post to Server:',str
         obj = json.loads(str)
         ret = post.poll(url,obj,'869')
+        print 'response from Server:',ret
         a.write(json.dumps(ret))
     
