@@ -36,9 +36,9 @@ struct unpacket
 	unsigned char length;	//1 byte
 	unsigned short dest;	//2 bytes
 	unsigned short src;		//2 bytes
-	float longitude;	//4 bytes
+	float longitude;		//4 bytes
 	unsigned char eORw;		//1 byte
-	float latitude;	//4 bytes
+	float latitude;			//4 bytes
 	unsigned char nORs;		//1 bytes
 	unsigned int temp;		//4 bytes
 	unsigned int humidity;	//4 bytes
@@ -60,7 +60,7 @@ DEVICEID876 = 876
 
 ser = serial.Serial( 
       port='/dev/ttyUSB0',	#set port
-      baudrate = 9600,		#ser baud rate
+      baudrate = 38400,		#ser baud rate
       parity=serial.PARITY_NONE,
       stopbits=serial.STOPBITS_ONE,
       bytesize=serial.EIGHTBITS,
@@ -107,7 +107,7 @@ while (1):
 			"rank": rank
 		}
 		#send to the server
-		post.report(url, sendData, src)
+		#post.report(url, sendData, src)
 	elif(src == DEVICEID876):
 		if(length != DATALEN876):
 			print "Get a unpacket from Group %d with unmatched length" %(src)
@@ -133,6 +133,6 @@ while (1):
 			"humidity": humidity
 		}
 		#send to the server
-		post.report(url, sendData, src)
+		#post.report(url, sendData, src)
 	else:
 		print "Get a unpack from unknown source"

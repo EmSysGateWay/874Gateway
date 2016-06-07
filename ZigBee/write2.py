@@ -4,7 +4,7 @@ import serial
 import time
       
 ser = serial.Serial( 
-      port='/dev/ttyUSB1',	#set port
+      port='/dev/ttyUSB2',	#set port
       baudrate = 38400,		#ser baud rate
       parity=serial.PARITY_NONE,
       stopbits=serial.STOPBITS_ONE,
@@ -46,23 +46,23 @@ longitude = 120.19
 eORw = 0
 latitude = 30.26
 nORs = 3
+temp = 23		#4 bytes temperature
 humidity = 86	#4 bytes humidity
-CO = 50			#4 bytes carbon monoxide
 
 data2 = struct.pack("<BB2HfBfBII",
 				    start,
 				    length,
 				    dest,
 				    src,
-				    pm25,
-				    HCHO,
+				    longitude,
+				    eORw,
+				    latitude,
+				    nORs,
 				    temp,
-				    humidity,
-				    CO,
-				    rank
+				    humidity
 					)
 
 flag = 0    
 while 1:
-	ser.write(data1)	#write
-	time.sleep(2)
+	ser.write(data2)
+	time.sleep(3)
