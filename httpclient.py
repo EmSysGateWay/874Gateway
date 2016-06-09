@@ -83,18 +83,24 @@ class HTTPClient(object):
             return
         return data['data']
 
+auth_id = 15
+auth_key = "d7fe7b0a3c1dbde58e251d3aafc4954f"
 
 def test_client():
-    c = HTTPClient(9, "cc69c6a4aacb81385fdcbb41c61dd803", "nya.fatmou.se")
+    c = HTTPClient(auth_id, auth_key, "nya.fatmou.se")
     data = {
-        "temperature": 23.22,
-        "humidity": 65.00,
-        "state": "n"
+        "pm2.5": 23,
+        "HCHO": 25,
+        "Temperature": 20,
+        "Humidity":71,
+        "CO":103,
+        "Detect People":2
     }
-    print(c.report(9, data))
-    print(c.get_data(9))
-    push_data = { "name": "set-temperature", "value": 28.50, "length": 4, "type": "float"}
-    c.push(9, push_data)
+    '''test:report for AirMonitor'''
+    print(c.report(17, data))
+    #print(c.get_data(9))
+    #push_data = { "name": "set-temperature", "value": 28.50, "length": 4, "type": "float"}
+    #c.push(9, push_data)
 
 
 if __name__=="__main__":
