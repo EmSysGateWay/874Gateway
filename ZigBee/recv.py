@@ -44,19 +44,24 @@ struct unpacket
 	unsigned int humidity;	//4 bytes
 };
 """
-
+import httpclient
 import struct
 import serial
 import post
 
 DATALEN871_882 = 21
 DATALEN876 = 18
-url = 'http://115.159.121.185'
 
 MYDEVICEID = 874
 DEVICEID871 = 871
 DEVICEID882 = 882
 DEVICEID876 = 876
+
+
+SERVERDEVICEID876 = 40
+SERVERDEVICEID882 = 38
+SERVERDEVICEID871 = 34
+
 
 ser = serial.Serial( 
       port='/dev/ttyUSB0',	#set port
@@ -66,6 +71,10 @@ ser = serial.Serial(
       bytesize=serial.EIGHTBITS,
       timeout=None
      )
+auth_id = 15
+auth_key = "d7fe7b0a3c1dbde58e251d3aafc4954f"
+client = httpclient.HTTPClient(auth_id, auth_key, "nya.fatmou.se")
+
 
 while (1):
 	start, = struct.unpack("B", ser.read(1))
@@ -98,16 +107,28 @@ while (1):
 		print "rank: ", rank
 		print "-----------------------------------------------\n\n"
 
-		sendData = {
-			"PM2.5": pm25,
-			"HCHO concentration": HCHO,
-			"temperature": temp,
-			"humidity": humidity,
+		sendData882 = {
+			"pm": pm25,
+			"HCHO": HCHO,
+			"Temperature": temp,
+			"Humidity": humidity,
 			"CO": CO,
-			"rank": rank
+			"Rank": rank
+		}
+		sendData871 = {
+			"pm25": pm25,
+			"HCHO": HCHO,
+			"Temperature": temp,
+			"Humidity": humidity,
+			"CO": CO,
+			"DetectPeople": rank		
 		}
 		#send to the server
-		#post.report(url, sendData, src)
+		if(src == DEVICEID871):
+			client.report(SERVERDEVICEID871, sendData871)
+		elif(src == DEVICEID882):
+			client.report(SERVERDEVICEID882, sendData882)
+
 	elif(src == DEVICEID876):
 		if(length != DATALEN876):
 			print "Get a unpacket from Group %d with unmatched length" %(src)
@@ -123,16 +144,24 @@ while (1):
 		print "temperature: ", temp
 		print "humidity: ", humidity
 		print "-----------------------------------------------\n\n"
-
-		sendData = {
+		if(eORw == 0):
+			eORwStr = "east"
+		else:
+			eORwStr = "west"
+		if(nORs == 2):
+			nORsStr = "south"
+		else:
+			nORsStr = "north"
+		sendData876 = {
 			"longitude": longitude,
-			"eORw": eORw,
+			"ew": eORwStr,
 			"latitude": latitude,
-			"nORs": nORs,
-			"temperature": temp,
-			"humidity": humidity
+			"ns": nORsStr,
+			"temp": temp,
+			"humi": humidity
 		}
 		#send to the server
-		#post.report(url, sendData, src)
+		client.report(SERVERDEVICEID876, sendData876)
+
 	else:
 		print "Get a unpack from unknown source"
