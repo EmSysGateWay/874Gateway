@@ -13,26 +13,26 @@ class BinaryClient:
 		self.device_id = device_id
 		self.device_key = device_key
 		self.device_fmt = device_fmt
-		self.server_addr = server_addr
-		self.server_port = server_port
-		address = (server_addr, server_port)
+		self.server_addr = server_addr;
+		self.server_port = server_port;
+		address = (self.server_addr, self.server_port)
 		self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM,0)
 		self.socket.connect(address)		
 
 
 	def login(self):
-		packet = struct.pack("<bi32s", self.LOGIN, self.device_id, self.device_key)
+		packet = struct.pack("<bL32s", self.LOGIN, self.device_id, self.device_key)
 		self.socket.send(packet)
 		packet = self.socket.recv(1)
 		if(self.is_ack(packet)):
 			print("login success")
 		else:
 			print("login failed")
-		return self.control_receive()
+		#return self.control_receive()
 
 
 	def is_ack(self,packet):
-		data = struct.unpack("<b",packet)
+		data = struct.unpack("<b",packet)		
 		if(data[0] == self.ACK):
 			return 1
 		else:
@@ -57,32 +57,29 @@ class BinaryClient:
 
 	def report(self,data):
 		packet = struct.pack("<bLL", self.REPORT, self.device_id,0)
-		self.socket.send(packet)
-		self.socket.send(data)
+		self.socket.send(packet+data)
 		packet = self.socket.recv(1)
 		if(self.is_ack(packet)):
 			print("report success")
 		else:
 			print("report failed")
 		
-		return self.control_receive()
-
-
-keys = {18: "ed78e2aa4799a0122eec4a31aa0ddcb1"}
-fmt = {18: "<i8sf"}
-
-def main():
-	client = BinaryClient(18,"ed78e2aa4799a0122eec4a31aa0ddcb1","<i8sf","nya.fatmou.se",10659)
-	control_data = client.login()
-	print control_data
-	
-	report_data = struct.pack("<4s","1234")
-	control_data = client.report(report_data)
-	print control_data
-
-	client.logout()
 		
-if __name__ == '__main__':
-    main()
+
+
+#def main():
+#	client = BinaryClient(39,"bd997d7a2d74157cce1b3358e0125652","<8s","nya.fatmou.se",10659)
+#	#client = BinaryClient(26,"33bcaf15032f0b2baa25f390376f1cdf","<4s","fat.fatmou.se",10659)	
+#	client.login()
+#	
+#	print 	client.control_receive()
+#
+#	report_data = struct.pack("<4sLf","abcd",23,2.2)
+#	client.report(report_data)
+#
+#	client.logout()
+#		
+#if __name__ == '__main__':
+#    main()
 
 
