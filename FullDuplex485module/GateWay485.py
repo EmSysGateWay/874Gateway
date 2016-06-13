@@ -1,4 +1,4 @@
-import RPi.GPIO as GPIO         ## Import GPIO Library
+#import RPi.GPIO as GPIO         ## Import GPIO Library
 import time                     ## Import 'time' library (for 'sleep')
 import serial
 # A : Receive
@@ -13,20 +13,20 @@ class GateWay485:
     # pin_DE : DE pin number of RPi
     # pin_RE : RE pin number of RPi
     def __init__(self,pinHigh, pinLow):
-        self.pinHigh = pinHigh
-        self.pinLow = pinLow
-        GPIO.setmode(GPIO.BOARD)        ## Use BOARD pin numbering
+        #self.pinHigh = pinHigh
+        #self.pinLow = pinLow
+        #GPIO.setmode(GPIO.BOARD)        ## Use BOARD pin numbering
         # setup the gpio condition
-        GPIO.setup(self.pinHigh, GPIO.OUT)
-        GPIO.setup(self.pinLow, GPIO.OUT)
+        #GPIO.setup(self.pinHigh, GPIO.OUT)
+        #GPIO.setup(self.pinLow, GPIO.OUT)
         
 		# set a_RE = 1, a_DE = 1
-        GPIO.output(self.pinHigh, GPIO.HIGH)
-        GPIO.output(self.pinLow, GPIO.LOW)
+        #GPIO.output(self.pinHigh, GPIO.HIGH)
+        #GPIO.output(self.pinLow, GPIO.LOW)
         
         self.ser = serial.Serial(
             port='/dev/ttyAMA0',
-            baudrate = 9600,
+            baudrate = 115200,
 			parity=serial.PARITY_NONE,
             stopbits=serial.STOPBITS_ONE,
             bytesize=serial.EIGHTBITS,
@@ -46,10 +46,8 @@ class GateWay485:
         return self.ser.read(num)
 
 if __name__ == '__main__':
-
     a = GateWay485(7,11)
     while True:
-        str = a.readline()
-        print str
+        a.write('123')
     print 'HEHE'
     

@@ -16,7 +16,7 @@ class Sensor485:
         # connect to serial
         self.ser = serial.Serial(
             port='/dev/tty.SLAB_USBtoUART',
-            baudrate = 9600,
+            baudrate = 115200,
 			parity=serial.PARITY_NONE,
             stopbits=serial.STOPBITS_ONE,
             bytesize=serial.EIGHTBITS,
@@ -64,11 +64,14 @@ class Transmit:
       
 if __name__ == '__main__':
     import json
-    a = Transmit()
+    a = Sensor485()
     while True:
-        a.requestAuth()
-        time.sleep(5)
+        # a.write('123')
         str = a.read()
         if len(str)>0:
-            print 'receive from GateWay:',str
-        time.sleep(5)
+            print str
+        # time.sleep(5)
+        # str = a.read()
+        # if len(str)>0:
+        #     print 'receive from GateWay:',str
+        # time.sleep(5)
