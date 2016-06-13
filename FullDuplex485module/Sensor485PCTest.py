@@ -66,8 +66,8 @@ if __name__ == '__main__':
     import json
     a = Sensor485()
     while True:
-        # a.write('123')
-        str = a.read()
+        a.write('123')
+        str = a.readline()
         if len(str)>0:
             print str
         # time.sleep(5)
