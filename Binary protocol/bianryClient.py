@@ -65,21 +65,31 @@ class BinaryClient:
 		else:
 			print("report failed")
 		
-		
+nya_client = BinaryClient(39,"bd997d7a2d74157cce1b3358e0125652","<8s","nya.fatmou.se",10659)	
+fat_client = BinaryClient(26,"33bcaf15032f0b2baa25f390376f1cdf","<4s","fat.fatmou.se",10659)	
+nya_client.login()
+fat_client.login()
 
+def fat_report(data,packet_id):
+	fat_client.report(data,packet_id)
+	
+def nya_report(data):
+	nya_client.report(data,0)
 
+def fat_logout():
+	fat_client.logout()
+	
+def nya_logout():
+	nya_client.logout()
+	
+	
 def main():
-	#client = BinaryClient(39,"bd997d7a2d74157cce1b3358e0125652","<8s","nya.fatmou.se",10659)
-	#client = BinaryClient(6,"4788cab347ad9b13baa24edee1554ed3","<8s","nya.fatmou.se",10659)	
-	client = BinaryClient(26,"33bcaf15032f0b2baa25f390376f1cdf","<4s","fat.fatmou.se",10659)	
-	client.login()
-
-	print 	client.control_receive()
-
 	report_data = struct.pack("<4sLf","abcd",23,2.2)
-	client.report(report_data)
+	nya_report(report_data)
+	fat_report(report_data,22)
 
-	client.logout()
+	nya_logout()
+	fat_logout()
 		
 if __name__ == '__main__':
     main()
