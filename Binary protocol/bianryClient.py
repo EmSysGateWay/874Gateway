@@ -47,6 +47,7 @@ class BinaryClient:
 	def control_receive(self):
 		packet_head = self.socket.recv(5)
 		packet_type,get_id = struct.unpack("<bL",packet_head)		
+		print packet_type,get_id
 		if(packet_type != self.CONTROL or get_id != self.device_id):
 			print "wrong packet type and device id"
 		
@@ -55,8 +56,8 @@ class BinaryClient:
 		return control_data
 		
 
-	def report(self,data):
-		packet = struct.pack("<bLL", self.REPORT, self.device_id,0)
+	def report(self,data,packet_id):
+		packet = struct.pack("<bLL", self.REPORT, self.device_id,packet_id)	#if nya then packet_id = 0
 		self.socket.send(packet+data)
 		packet = self.socket.recv(1)
 		if(self.is_ack(packet)):
@@ -67,19 +68,20 @@ class BinaryClient:
 		
 
 
-#def main():
-#	client = BinaryClient(39,"bd997d7a2d74157cce1b3358e0125652","<8s","nya.fatmou.se",10659)
-#	#client = BinaryClient(26,"33bcaf15032f0b2baa25f390376f1cdf","<4s","fat.fatmou.se",10659)	
-#	client.login()
-#	
-#	print 	client.control_receive()
-#
-#	report_data = struct.pack("<4sLf","abcd",23,2.2)
-#	client.report(report_data)
-#
-#	client.logout()
-#		
-#if __name__ == '__main__':
-#    main()
+def main():
+	#client = BinaryClient(39,"bd997d7a2d74157cce1b3358e0125652","<8s","nya.fatmou.se",10659)
+	#client = BinaryClient(6,"4788cab347ad9b13baa24edee1554ed3","<8s","nya.fatmou.se",10659)	
+	client = BinaryClient(26,"33bcaf15032f0b2baa25f390376f1cdf","<4s","fat.fatmou.se",10659)	
+	client.login()
+
+	print 	client.control_receive()
+
+	report_data = struct.pack("<4sLf","abcd",23,2.2)
+	client.report(report_data)
+
+	client.logout()
+		
+if __name__ == '__main__':
+    main()
 
 
