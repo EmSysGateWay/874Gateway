@@ -42,20 +42,20 @@ def fat_report(report_id, device_id, data):
     print response.getheaders()
 
 #report_id for fat
-def report(device_id, data):
-	nya_report(device_id, data)
-	fat_report(device_id, data)
+def report(data):
+	nya_report(45, data)
+	fat_report(25, 12, data)
 
-if __name__=="__main__":  
-	#report()
-     a = GateWay485(7,11)
-    while True:
-        str = a.readline()
-        if len(str) > 0:
-            print 'Receive from 869 module :',str
-            obj = json.loads(str)
-            report(869,obj)
-       
-        
-        
-
+if __name__=="__main__":
+	a = GateWay485(7,11)
+	while True:
+		str = a.readline()
+		if len(str) > 0:
+			print 'Receive from 869 module :',str
+			obj = json.loads(str)
+			report(obj)
+	# data = {"Date":"2016-xx-xx xx:xx:xx","User":"xxxxxxxxxx","Identity":"Success"}
+	# # nya_report(45,data)
+	# report_id = 25
+	# device_id = 12
+	# fat_report(report_id, device_id, data)
