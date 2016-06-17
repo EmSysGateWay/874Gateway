@@ -48,6 +48,25 @@ import httpclient
 import struct
 import serial
 import post
+import report
+import json
+
+with open('config.json') as config_file:
+	config = json.load(config_file)
+
+if config['871']=='http':
+	report871http=True
+else:
+	report871http=False
+if config['882']=='http':
+	report882http=True
+else:
+	report882http=False
+if config['876']=='http':
+	report876http=True
+else:
+	report876http=False
+
 
 DATALEN871_882 = 21
 DATALEN876 = 18
@@ -57,10 +76,18 @@ DEVICEID871 = 871
 DEVICEID882 = 882
 DEVICEID876 = 876
 
-
 SERVERDEVICEID876 = 40
 SERVERDEVICEID882 = 38
 SERVERDEVICEID871 = 34
+
+fat_device_871=13
+fat_report_871=14
+
+fat_device_882=18
+fat_report_882=16
+
+fat_device_876=24
+fat_report_876=32
 
 
 ser = serial.Serial( 
@@ -125,10 +152,13 @@ while (1):
 		}
 		#send to the server
 		if(src == DEVICEID871):
-			client.report(SERVERDEVICEID871, sendData871)
+			#client.report(SERVERDEVICEID871, sendData871)
+			report.nya_report(SERVERDEVICEID871, sendData871,report871http)
+			report.fat_report(fat_report_871,fat_device_871,sendData871,report871http)
 		elif(src == DEVICEID882):
-			client.report(SERVERDEVICEID882, sendData882)
-
+			#client.report(SERVERDEVICEID882, sendData882)
+			report.nya_report(SERVERDEVICEID882, sendData882,report882http)
+			report.fat_report(fat_report_882, fat_device_882, sendData882,report882http)
 	elif(src == DEVICEID876):
 		if(length != DATALEN876):
 			print "Get a unpacket from Group %d with unmatched length" %(src)
@@ -161,7 +191,8 @@ while (1):
 			"humi": humidity
 		}
 		#send to the server
-		client.report(SERVERDEVICEID876, sendData876)
-
+		#client.report(SERVERDEVICEID876, sendData876)
+		report.nya_report(SERVERDEVICEID876, sendData876,report876http)
+		report.fat_report(fat_report_876,fat_device_876,sendData876,report876http)
 	else:
 		print "Get a unpack from unknown source"
