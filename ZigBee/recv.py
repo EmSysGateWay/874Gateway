@@ -76,22 +76,22 @@ DEVICEID871 = 871
 DEVICEID882 = 882
 DEVICEID876 = 876
 
-SERVERDEVICEID876 = 40
+SERVERDEVICEID876 = 47
 SERVERDEVICEID882 = 38
 SERVERDEVICEID871 = 34
 
 fat_device_871=13
-fat_report_871=14
+fat_report_871=34
 
 fat_device_882=18
-fat_report_882=16
+fat_report_882=33
 
 fat_device_876=24
-fat_report_876=32
+fat_report_876=36
 
 
 ser = serial.Serial( 
-      port='/dev/ttyUSB0',	#set port
+      port='/dev/ttyAMA0',	#set port
       baudrate = 38400,		#ser baud rate
       parity=serial.PARITY_NONE,
       stopbits=serial.STOPBITS_ONE,
@@ -150,12 +150,25 @@ while (1):
 			"CO": CO,
 			"DetectPeople": rank		
 		}
+
+		binData = struct.pack("<6I",
+						pm25,
+						HCHO,
+						temp,
+						humidity,
+						CO,
+						rank
+			);
 		#send to the server
 		if(src == DEVICEID871):
+			if not report871http:
+				sendData871 = binData
 			#client.report(SERVERDEVICEID871, sendData871)
 			report.nya_report(SERVERDEVICEID871, sendData871,report871http)
 			report.fat_report(fat_report_871,fat_device_871,sendData871,report871http)
 		elif(src == DEVICEID882):
+			if not report882http:
+				sendData882 = binData
 			#client.report(SERVERDEVICEID882, sendData882)
 			report.nya_report(SERVERDEVICEID882, sendData882,report882http)
 			report.fat_report(fat_report_882, fat_device_882, sendData882,report882http)
